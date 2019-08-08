@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Jigsaw</title>
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            /* fallback for old browsers */
+            background: #9E9E9E;
+        }
+
+        @font-face {
+            font-family: scribble-box;
+            src: url('fonts/ScribbleBoxDEMO.eot');
+    src: url('fonts/ScribbleBoxDEMO.eot?#iefix') format('embedded-opentype'),
+        url('fonts/ScribbleBoxDEMO.woff2') format('woff2'),
+        url('fonts/ScribbleBoxDEMO.woff') format('woff'),
+        url('fonts/ScribbleBoxDEMO.ttf') format('truetype'),
+        url('fonts/ScribbleBoxDEMO.svg#ScribbleBoxDEMO') format('svg');
+        }
+
+        @font-face {
+            font-family: avenier-black;
+            src: url('fonts/AvenirLTStd-Black.otf');
+			src: url('fonts/AvenirLTStd-Black.eot');
+			src: url('fonts/AvenirLTStd-Black.eot?#iefix') format('embedded-opentype'),
+			url('fonts/AvenirLTStd-Black.woff2') format('woff2'),
+			url('fonts/AvenirLTStd-Black.woff') format('woff'),
+			url('fonts/AvenirLTStd-Black.ttf') format('truetype'),
+			url('fonts/AvenirLTStd-Black.svg#AvenirLTStd-Black') format('svg');
+        }
+        .TimerHolder{
+            position: relative;
+            height: 50px;
+            margin: 5px;
+        }
+        #Timer{
+            position: absolute;
+            right: 10px;
+            width: 100px;
+            height: 50px;
+            background: #fff;
+            border-radius: 5px;
+            border: 1px solid;
+            font-weight: bold;
+            font-family: 'avenier-black';
+            text-align: center;
+            padding-top: 12px;
+            font-size: 22px;
+            box-sizing: border-box;
+        }
+
+        .gameHeader,
+        .startBtn {
+            font-family: 'scribble-box';
+            margin-bottom: 1%;
+        }
+
+        .gameHeader {
+            color: #ffffff;
+            font-size: 3.5rem;
+            margin-top: 10%;
+        }
+        .startBtn{
+            font-size: 2.5rem;
+            color: #000000;
+            background: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid;
+            cursor: pointer;
+            margin-top: 10%;
+            margin-bottom: 10%;
+           
+        }
+        #timeTakenDiv{
+            font-size: 25px;
+        }
+
+        #secondsDiv{
+            font-size: 15px;
+        }
+
+        .gameSubheading {
+            font-family: 'avenier-black'
+        }
+
+        
+        .greeting_box{
+            top: calc(50% - 100px);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid #000;
+            background: #fff;
+            width: 330px;
+            margin: 0 auto;
+        }
+
+        .greeting_box div {
+            font-family: 'avenier-black'
+        }
+        .greeting_box .success_msz{
+            color: forestgreen;
+            margin: 2% 0;
+        }
+
+        .greeting_box .congrats, .greeting_box .tryagain{
+            font-family: 'scribble-box';
+            color: #000;
+            font-size: 2rem;
+        }
+
+        .greeting_box .tryagain{
+            margin-top: 5%;
+            cursor: pointer;
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .ref_imgWrap {
+            max-width: 200px;
+            margin: 0 auto;
+            overflow: hidden;
+            margin-top: 1em;
+            position: relative;
+        }
+
+        .ref_imgWrap img {
+            max-width: 100%;
+            float: left;
+            height: auto;
+        }
+
+        .contRofl_clr,
+        .wrap {
+            width: 100%;
+            float: left;
+        }
+
+        .contRofl_clr {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            display: flex;
+            background: #9E9E9E;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .restartPuzzleWrap {
+            width: auto;
+            /* float: left; */
+            text-align: center;
+            padding: 1em;
+            background: #607D8B;
+            margin: 0 auto;
+            border-radius: 10px;
+        }
+
+        .timeTakenSpan {
+            padding: 5px;
+        }
+
+        .restart_puzzleX999 {
+            padding: 1.6em;
+            display: inline-block;
+            background: orange;
+            color: #ffffff;
+            letter-spacing: 1px;
+            font-weight: 300;
+            border-radius: 2px;
+            cursor: pointer;
+            -webkit-box-shadow: 1px 1px 6px 0px rgba(50, 50, 50, 0.35);
+            -moz-box-shadow: 1px 1px 6px 0px rgba(50, 50, 50, 0.35);
+            box-shadow: 1px 1px 6px 0px rgba(50, 50, 50, 0.35);
+        }
+
+        .snappuzzle-piece {
+            -webkit-box-shadow: 1px 1px 6px 0px rgba(50, 50, 50, 0.35);
+            -moz-box-shadow: 1px 1px 6px 0px rgba(50, 50, 50, 0.35);
+            box-shadow: 1px 1px 6px 0px rgba(50, 50, 50, 0.35);
+        }
+
+        /* required snapPuzzle styles */
+
+        .puzzleX999_paddedWrap {
+            width: 100%;
+            float: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .puzzleX999_imgWrap {
+            max-width: 1024px;
+            padding: 5%;
+            padding-top: 0;
+            margin: 0 auto;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .puzzleX999_imgWrap img {
+            max-width: 100%;
+            float: left;
+            height: auto;
+        }
+
+        .puzzleX999_relWrap {
+            position: relative;
+            display: block;
+            max-width: 500px;
+            float: left;
+        }
+
+        #puzzleX999_Main {
+            width: 100%;
+            float: left;
+        }
+
+        .snappuzzle-wrap {
+            position: relative;
+            display: block;
+        }
+
+        /*snappuzzle-pile { position: relative; }*/
+
+        .snappuzzle-piece {
+            cursor: move;
+        }
+
+        .snappuzzle-slot {
+            position: absolute;
+            background: #fff;
+            opacity: 1;
+        }
+
+        .snappuzzle-slot-hover {
+            background: #eee;
+        }
+
+        .Timer {
+            text-align: center;
+            padding: 10px;
+            height: 40px;
+            box-sizing: border-box;
+        }
+        #restartPuzzleHolder{
+            display: none;
+            background: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="startPuzzleHolder" class="contRofl_clr">
+        <div class="gameHeader">WELCOME READER</div>
+        <div class="gameSubheading">Click the start button to commence the challenge</div>
+        <div id="startBtn" class="startBtn">START</div>
+        <div class="gameSubheading">Try to finish before 60 seconds and share your victory</div>
+    </div>
+
+    <div class="TimerHolder">
+        <div id="Timer">
+                00:00
+        </div>
+    </div>
+    <div class="puzzleX999_paddedWrap" style="opacity: 0;">
+        <div class="puzzleX999_imgWrap">
+            <img class="puzzleX999_img" src="jp.jpg" alt="" />
+            <div id="puzzleX999_Main">
+            </div>
+        </div>
+        <audio id="gameAudio">
+            <source src="game-alert-positive.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+    <div id="restartPuzzleHolder" class="contRofl_clr">
+        <div class="greeting_box">
+            <div class="congrats">CONGRATULATIONS</div>
+            <div class="success_msz">You have completed the challenge</div>
+            <div id="timeTakenDiv">00:00</div>
+            <div id="secondsDiv">Seconds</div>
+            <div id="tryAgain" class="tryagain">TRY AGAIN</div>
+        </div>
+    </div>
+
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js'></script>
+    <script
+        src='https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js'></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
